@@ -1,0 +1,28 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Gestión de Trabajos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    @for (trabajo of trabajos; track trabajo.IdTrabajo) {
+      <!--hay trabajos-->
+      <ion-item>
+        <ion-label>
+          <h2>{{'Trabajo ID: ' + trabajo.IdTrabajo }}</h2>
+          <p>Nombre: {{ trabajo.Nombre }}</p>
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <!--no hay trabajos-->
+      <ion-item>
+        <ion-label>No hay trabajos creados</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <app-explore-container name="Tab 2 page"></app-explore-container>
+</ion-content>

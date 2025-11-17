@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Gestión de Fichajes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    @for (fichaje of fichajes; track fichaje.IdFichaje) {
+      <!--hay fichajes-->
+      <ion-item>
+        <ion-label>
+          <h2>{{'Fichaje ID: ' + fichaje.IdFichaje }}</h2>
+          <p>Trabajo ID: {{ fichaje.IdTrabajo }}</p>
+          <p>Entrada: {{ fichaje.FechaHoraEntrada | date:'dd/MM/yyyy HH:mm' }}</p> <!--pa dejar la fecha bonita cambio el formato-->
+          <!--en el caso de que no ha cerrado el fichaje, muestra "en curso"-->
+          <p>Salida: {{ fichaje.FechaHoraSalida ? (fichaje.FechaHoraSalida | date:'dd/MM/yyyy HH:mm') : 'En curso' }}</p>
+          <p>Horas: {{ fichaje.HorasTrabajadas || 0 }}h</p>
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <!--no hay fichajes-->
+      <ion-item>
+        <ion-label>No hay fichajes registrados</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <app-explore-container name="Tab 3 page"></app-explore-container>
+</ion-content>

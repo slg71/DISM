@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Gestión de Usuarios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    @for (usuario of usuarios; track usuario.IdUsuario) {
+      <!--hay usuarios-->
+      <ion-item>
+        <ion-label>
+          <h2>{{'Usuario ID: ' + usuario.IdUsuario }}</h2>
+          <p>Nombre: {{ usuario.Nombre }}</p>
+          <p>Clave: {{ usuario.Clave }}</p>
+        </ion-label>
+      </ion-item>
+    } @empty {
+      <!--no hay usurios-->
+      <ion-item>
+        <ion-label>No hay usuarios creados</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <app-explore-container name="Tab 1 page"></app-explore-container>
+</ion-content>
