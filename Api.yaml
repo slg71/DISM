@@ -1,0 +1,410 @@
+openapi: 3.0.0
+servers:
+  - description: Servidor ApiRest Práctica 1
+    url: http://localhost:8080
+info:
+  description: OpenApi para gestión de usuarios, fichajes y trabajos.
+  version: "1.0.0"
+  title: Api P1_DISM
+
+paths:
+
+# ------------------------------ USUARIOS
+  /usuarios:
+    get:
+      tags:
+        - Usuarios
+      description: Obtener todos los usuarios
+      responses:
+      # select/actualización éxitoso
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Usuario'
+    post:
+      tags:
+        - Usuarios
+      description: Crear un usuario nuevo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+      # insert exitoso
+        '201':
+          description: Usuario creado
+      # error para cuando los parámetros no sean válidos
+        '400':
+          description: Datos introducidos no válidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /usuarios/{IdUsuario}:
+    get:
+      tags:
+        - Usuarios
+      description: Obtener un usuario por su Id
+      parameters:
+        - in: path
+          name: IdUsuario
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+      # error para cuando no existe 
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Usuarios
+      description: Actualizar datos de un usuario
+      parameters:
+        - in: path
+          name: IdUsuario
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: Usuario actualizado
+        '400':
+          description: Datos introducidos no válidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Usuarios
+      description: Borrar un usuario
+      parameters:
+        - in: path
+          name: IdUsuario
+          required: true
+          schema:
+            type: integer
+      responses:
+      # delete exitoso
+        '204':
+          description: Usuario borrado
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# ------------------------------ TRABAJOS
+  /trabajos:
+    get:
+      tags:
+        - Trabajos
+      description: Listar trabajos
+      responses:
+        '200':
+          description: Lista de trabajos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trabajo'
+    post:
+      tags:
+        - Trabajos
+      description: Crear un nuevo trabajo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trabajo'
+      responses:
+        '201':
+          description: Trabajo creado
+        '400':
+          description: Datos introducidos no válidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /trabajos/{IdTrabajo}:
+    get:
+      tags:
+        - Trabajos
+      description: Obtener trabajo por ID
+      parameters:
+        - in: path
+          name: IdTrabajo
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Trabajo encontrado
+        '404':
+          description: Trabajo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        - Trabajos
+      description: Actualizar un trabajo
+      parameters:
+        - in: path
+          name: IdTrabajo
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trabajo'
+      responses:
+        '200':
+          description: Trabajo actualizado
+        '400':
+          description: Datos introducidos no válidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Trabajo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Trabajos
+      description: Eliminar un trabajo
+      parameters:
+        - in: path
+          name: IdTrabajo
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Trabajo eliminado
+        '404':
+          description: Trabajo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# ------------------------------ FICHAJES
+  /fichajes:
+    get:
+      tags:
+        - Fichajes
+      description: Consultar fichajes con filtros opcionales
+      parameters:
+        - in: query
+          name: IdUsuario
+          schema:
+            type: integer
+        - in: query
+          name: FechaHoraEntrada
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: FechaHoraSalida
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Lista de fichajes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fichaje'
+    post:
+      tags:
+        - Fichajes
+      description: Crear un nuevo fichaje
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fichaje'
+      responses:
+        '201':
+          description: Fichaje creado
+        '400':
+          description: Datos introducidos no válidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /fichajes/{IdFichaje}:
+    put:
+      tags:
+        - Fichajes
+      description: Actualizar un fichaje
+      parameters:
+        - in: path
+          name: IdFichaje
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Fichaje'
+      responses:
+        '200':
+          description: Fichaje actualizado
+        '404':
+          description: Fichaje no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - Fichajes
+      description: Eliminar un fichaje
+      parameters:
+        - in: path
+          name: IdFichaje
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Fichaje eliminado
+        '404':
+          description: Fichaje no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# ------------------------------ APIKEY
+  /apikey:
+    get:
+      tags:
+        - ApiKey
+      description: Validar ApiKey
+      parameters:
+        - in: query
+          name: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ApiKey válida
+        '401':
+          description: ApiKey inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+# ------------------------------ SCHEMAS
+components:
+  schemas:
+    Usuario:
+      type: object
+      properties:
+        IdUsuario:
+          type: integer
+          readOnly: true
+        Nombre:
+          type: string
+        Usuario:
+          type: string
+        Clave:
+          type: string
+    Trabajo:
+      type: object
+      properties:
+        IdTrabajo:
+          type: integer
+          readOnly: true
+        Nombre:
+          type: string
+    Fichaje:
+      type: object
+      properties:
+        IdFichaje:
+          type: integer
+          readOnly: true
+        FechaHoraEntrada:
+          type: string
+          format: date-time
+        FechaHoraSalida:
+          type: string
+          format: date-time
+        HorasTrabajadas:
+          type: integer
+        IdTrabajo:
+          type: integer
+        IdUsuario:
+          type: integer
+        GeolocalizacionLatitud:
+          type: number
+          format: float
+        GeolocalizacionLongitud:
+          type: number
+          format: float
+    ApiKey:
+      type: object
+      properties:
+        idKey:
+          type: integer
+          readOnly: true
+        Key:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

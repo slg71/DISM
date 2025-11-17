@@ -1,0 +1,467 @@
+openapi: 3.0.0
+info:
+  description: "OpenApi para gestión de usuarios, fichajes y trabajos."
+  title: Api P1_DISM
+  version: 1.0.0
+servers:
+- description: Servidor ApiRest Práctica 1
+  url: http://localhost:8080
+paths:
+  /usuarios:
+    get:
+      description: Obtener todos los usuarios
+      operationId: usuariosGET
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Usuario"
+                type: array
+          description: Lista de usuarios
+      tags:
+      - Usuarios
+      x-eov-operation-handler: controllers/UsuariosController
+    post:
+      description: Crear un usuario nuevo
+      operationId: usuariosPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuario"
+        required: true
+      responses:
+        "201":
+          description: Usuario creado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Datos introducidos no válidos
+      tags:
+      - Usuarios
+      x-eov-operation-handler: controllers/UsuariosController
+  /usuarios/{IdUsuario}:
+    delete:
+      description: Borrar un usuario
+      operationId: usuariosIdUsuarioDELETE
+      parameters:
+      - explode: false
+        in: path
+        name: IdUsuario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Usuario borrado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Usuario no encontrado
+      tags:
+      - Usuarios
+      x-eov-operation-handler: controllers/UsuariosController
+    get:
+      description: Obtener un usuario por su Id
+      operationId: usuariosIdUsuarioGET
+      parameters:
+      - explode: false
+        in: path
+        name: IdUsuario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+          description: Usuario encontrado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Usuario no encontrado
+      tags:
+      - Usuarios
+      x-eov-operation-handler: controllers/UsuariosController
+    put:
+      description: Actualizar datos de un usuario
+      operationId: usuariosIdUsuarioPUT
+      parameters:
+      - explode: false
+        in: path
+        name: IdUsuario
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Usuario"
+        required: true
+      responses:
+        "200":
+          description: Usuario actualizado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Datos introducidos no válidos
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Usuario no encontrado
+      tags:
+      - Usuarios
+      x-eov-operation-handler: controllers/UsuariosController
+  /trabajos:
+    get:
+      description: Listar trabajos
+      operationId: trabajosGET
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Trabajo"
+                type: array
+          description: Lista de trabajos
+      tags:
+      - Trabajos
+      x-eov-operation-handler: controllers/TrabajosController
+    post:
+      description: Crear un nuevo trabajo
+      operationId: trabajosPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trabajo"
+        required: true
+      responses:
+        "201":
+          description: Trabajo creado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Datos introducidos no válidos
+      tags:
+      - Trabajos
+      x-eov-operation-handler: controllers/TrabajosController
+  /trabajos/{IdTrabajo}:
+    delete:
+      description: Eliminar un trabajo
+      operationId: trabajosIdTrabajoDELETE
+      parameters:
+      - explode: false
+        in: path
+        name: IdTrabajo
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Trabajo eliminado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Trabajo no encontrado
+      tags:
+      - Trabajos
+      x-eov-operation-handler: controllers/TrabajosController
+    get:
+      description: Obtener trabajo por ID
+      operationId: trabajosIdTrabajoGET
+      parameters:
+      - explode: false
+        in: path
+        name: IdTrabajo
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          description: Trabajo encontrado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Trabajo no encontrado
+      tags:
+      - Trabajos
+      x-eov-operation-handler: controllers/TrabajosController
+    put:
+      description: Actualizar un trabajo
+      operationId: trabajosIdTrabajoPUT
+      parameters:
+      - explode: false
+        in: path
+        name: IdTrabajo
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trabajo"
+        required: true
+      responses:
+        "200":
+          description: Trabajo actualizado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Datos introducidos no válidos
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Trabajo no encontrado
+      tags:
+      - Trabajos
+      x-eov-operation-handler: controllers/TrabajosController
+  /fichajes:
+    get:
+      description: Consultar fichajes con filtros opcionales
+      operationId: fichajesGET
+      parameters:
+      - explode: true
+        in: query
+        name: IdUsuario
+        required: false
+        schema:
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: FechaHoraEntrada
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: FechaHoraSalida
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Fichaje"
+                type: array
+          description: Lista de fichajes
+      tags:
+      - Fichajes
+      x-eov-operation-handler: controllers/FichajesController
+    post:
+      description: Crear un nuevo fichaje
+      operationId: fichajesPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fichaje"
+        required: true
+      responses:
+        "201":
+          description: Fichaje creado
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Datos introducidos no válidos
+      tags:
+      - Fichajes
+      x-eov-operation-handler: controllers/FichajesController
+  /fichajes/{IdFichaje}:
+    delete:
+      description: Eliminar un fichaje
+      operationId: fichajesIdFichajeDELETE
+      parameters:
+      - explode: false
+        in: path
+        name: IdFichaje
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "204":
+          description: Fichaje eliminado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Fichaje no encontrado
+      tags:
+      - Fichajes
+      x-eov-operation-handler: controllers/FichajesController
+    put:
+      description: Actualizar un fichaje
+      operationId: fichajesIdFichajePUT
+      parameters:
+      - explode: false
+        in: path
+        name: IdFichaje
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fichaje"
+        required: true
+      responses:
+        "200":
+          description: Fichaje actualizado
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: Fichaje no encontrado
+      tags:
+      - Fichajes
+      x-eov-operation-handler: controllers/FichajesController
+  /apikey:
+    get:
+      description: Validar ApiKey
+      operationId: apikeyGET
+      parameters:
+      - explode: true
+        in: query
+        name: key
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: ApiKey válida
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: ApiKey inválida
+      tags:
+      - ApiKey
+      x-eov-operation-handler: controllers/ApiKeyController
+components:
+  schemas:
+    Usuario:
+      example:
+        Nombre: Nombre
+        Usuario: Usuario
+        IdUsuario: 0
+        Clave: Clave
+      properties:
+        IdUsuario:
+          readOnly: true
+          type: integer
+        Nombre:
+          type: string
+        Usuario:
+          type: string
+        Clave:
+          type: string
+      type: object
+    Trabajo:
+      example:
+        Nombre: Nombre
+        IdTrabajo: 0
+      properties:
+        IdTrabajo:
+          readOnly: true
+          type: integer
+        Nombre:
+          type: string
+      type: object
+    Fichaje:
+      example:
+        GeolocalizacionLatitud: 5.637377
+        GeolocalizacionLongitud: 2.302136
+        IdUsuario: 5
+        IdFichaje: 0
+        FechaHoraEntrada: 2000-01-23T04:56:07.000+00:00
+        FechaHoraSalida: 2000-01-23T04:56:07.000+00:00
+        IdTrabajo: 1
+        HorasTrabajadas: 6
+      properties:
+        IdFichaje:
+          readOnly: true
+          type: integer
+        FechaHoraEntrada:
+          format: date-time
+          type: string
+        FechaHoraSalida:
+          format: date-time
+          type: string
+        HorasTrabajadas:
+          type: integer
+        IdTrabajo:
+          type: integer
+        IdUsuario:
+          type: integer
+        GeolocalizacionLatitud:
+          format: float
+          type: number
+        GeolocalizacionLongitud:
+          format: float
+          type: number
+      type: object
+    ApiKey:
+      properties:
+        idKey:
+          readOnly: true
+          type: integer
+        Key:
+          type: string
+      type: object
+    Error:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      type: object
