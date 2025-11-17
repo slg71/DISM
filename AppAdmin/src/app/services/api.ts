@@ -41,6 +41,19 @@ export class Api {
     return this.http.get<Usuario[]>(this.basePath + '/usuarios').pipe(retry(2),catchError(this.handleError));
   }
 
+  createUsuario(item: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.basePath + '/usuarios', JSON.stringify(item), this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  updateUsuario(item: Usuario): Observable<Usuario> {
+    console.log("UPDATE: " + JSON.stringify(item));
+    return this.http.put<Usuario>(this.basePath + '/usuarios/' + item.IdUsuario, JSON.stringify(item), this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  deleteUsuario(IdUsuario: number): Observable<Usuario> {
+    return this.http.delete<Usuario>(this.basePath + '/usuarios/' + IdUsuario, this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
 /*============Trabajos===========*/
   getTrabajos(): Observable<Trabajo[]> {
     return this.http.get<Trabajo[]>(this.basePath + '/trabajos').pipe(retry(2),catchError(this.handleError));

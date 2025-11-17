@@ -8,14 +8,18 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    @for (usuario of usuarios; track usuario.IdUsuario) {
+    @for (item of usuarios; track item.IdUsuario) {
       <!--hay usuarios-->
       <ion-item>
         <ion-label>
-          <h2>{{'Usuario ID: ' + usuario.IdUsuario }}</h2>
-          <p>Nombre: {{ usuario.Nombre }}</p>
-          <p>Clave: {{ usuario.Clave }}</p>
+          <h2>Nombre: {{ item.Nombre }}</h2>
         </ion-label>
+        <ion-button (click)="editUsuario(item)" color="warning" size="small">
+          <ion-icon name="create"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteUsuario(item)" color="danger" size="small">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
       </ion-item>
     } @empty {
       <!--no hay usurios-->
@@ -24,6 +28,8 @@
       </ion-item>
     }
   </ion-list>
-
+  <ion-button [routerLink]="['/nuevo']" expand="block">
+    Nuevo Usuario
+  </ion-button>
   <app-explore-container name="Tab 1 page"></app-explore-container>
 </ion-content>
