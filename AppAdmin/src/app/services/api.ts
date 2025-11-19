@@ -46,8 +46,12 @@ export class Api {
   }
 
   updateUsuario(item: Usuario): Observable<Usuario> {
+    //separo el id del body de usuario pa evitar errores
+    const id = item.IdUsuario;
+    const { IdUsuario, ...body } = item;
+
     console.log("UPDATE: " + JSON.stringify(item));
-    return this.http.put<Usuario>(this.basePath + '/usuarios/' + item.IdUsuario, JSON.stringify(item), this.httpOptions).pipe(retry(2),catchError(this.handleError));
+    return this.http.put<Usuario>(this.basePath + '/usuarios/' + id, body, this.httpOptions).pipe(retry(2),catchError(this.handleError));
   }
 
   deleteUsuario(IdUsuario: number): Observable<Usuario> {

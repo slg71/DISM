@@ -12,14 +12,14 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
   styleUrls: ['tab2.page.scss'],
   imports: [IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
 })
-export class Tab2Page implements OnInit{
+export class Tab2Page {
   trabajos: any = [];
 
   constructor(private api: Api) {
     addIcons({ timeOutline });//codigo pa registrar iconos (ejer 1)
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.cargarTrabajos();
   }
 

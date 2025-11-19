@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>editar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-item>
+    <ion-label>Nombre:</ion-label>
+    <ion-input [(ngModel)]="UsuarioData.Nombre" placeholder="Nombre"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Usuario:</ion-label>
+    <ion-input [(ngModel)]="UsuarioData.Usuario" placeholder="Usuario"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Clave:</ion-label>
+    <ion-input [(ngModel)]="UsuarioData.Clave" placeholder="Clave"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="putUsuario()" color="success" expand="block">Actualizar</ion-button>
+  <ion-button [routerLink]="['/tabs/tab1']" color="warning" expand="block">Cancelar</ion-button>
+</ion-content>

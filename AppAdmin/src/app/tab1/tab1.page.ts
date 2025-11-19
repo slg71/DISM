@@ -8,6 +8,7 @@ import { ExploreContainerComponent } from '../explore-container/explore-containe
 import { Usuario } from '../models/usuario';
 import { NavController } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
+import { create, trash } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab1',
@@ -15,17 +16,17 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['tab1.page.scss'],
   imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
 })
-export class Tab1Page implements OnInit{
+export class Tab1Page {
   usuarios: any = [];
 
   constructor(
     public api: Api,
     private nav: NavController
   ) {
-    addIcons({ timeOutline });//codigo pa registrar iconos (ejer 1)
+    addIcons({ create, trash });
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.cargarUsuarios();
   }
 
