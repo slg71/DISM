@@ -8,13 +8,18 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    @for (trabajo of trabajos; track trabajo.IdTrabajo) {
+    @for (item of trabajos; track item.IdTrabajo) {
       <!--hay trabajos-->
       <ion-item>
         <ion-label>
-          <h2>{{'Trabajo ID: ' + trabajo.IdTrabajo }}</h2>
-          <p>Nombre: {{ trabajo.Nombre }}</p>
+          <h2>Nombre: {{ item.Nombre }}</h2>
         </ion-label>
+        <ion-button (click)="editTrabajo(item)" color="warning" size="small">
+          <ion-icon name="create"></ion-icon>
+        </ion-button>
+        <ion-button (click)="deleteTrabajo(item)" color="danger" size="small">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
       </ion-item>
     } @empty {
       <!--no hay trabajos-->
@@ -23,6 +28,8 @@
       </ion-item>
     }
   </ion-list>
-
+  <ion-button [routerLink]="['/nuevo-t']" expand="block">
+    Nuevo Trabajo
+  </ion-button>
   <app-explore-container name="Tab 2 page"></app-explore-container>
 </ion-content>

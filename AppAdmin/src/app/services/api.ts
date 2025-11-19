@@ -63,6 +63,23 @@ export class Api {
     return this.http.get<Trabajo[]>(this.basePath + '/trabajos').pipe(retry(2),catchError(this.handleError));
   }
 
+  createTrabajo(item: Trabajo): Observable<Trabajo> {
+    return this.http.post<Trabajo>(this.basePath + '/trabajos', JSON.stringify(item), this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  updateTrabajo(item: Trabajo): Observable<Trabajo> {
+    //separo el id del body de usuario pa evitar errores
+    const id = item.IdTrabajo;
+    const { IdTrabajo, ...body } = item;
+
+    console.log("UPDATE: " + JSON.stringify(item));
+    return this.http.put<Trabajo>(this.basePath + '/trabajos/' + id, body, this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  deleteTrabajo(IdTrabajo: number): Observable<Trabajo> {
+    return this.http.delete<Trabajo>(this.basePath + '/trabajos/' + IdTrabajo, this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
 /*============Fichajes===========*/
   getFichajesAll(): Observable<Fichaje[]> {
     return this.http.get<Fichaje[]>(this.basePath + '/fichajes').pipe(retry(2),catchError(this.handleError));

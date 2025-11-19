@@ -2,21 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline } from 'ionicons/icons';
 import { Api } from '../services/api';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
+import { Trabajo } from '../models/trabajo';
+import { NavController } from '@ionic/angular';
+import { RouterLink } from '@angular/router';
+import { create, trash } from 'ionicons/icons';
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
-  imports: [IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
+  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
 })
 export class Tab2Page {
   trabajos: any = [];
 
-  constructor(private api: Api) {
-    addIcons({ timeOutline });//codigo pa registrar iconos (ejer 1)
+  constructor(
+    public api: Api,
+    private nav: NavController
+  ) {
+    addIcons({ create, trash });
   }
 
   ionViewWillEnter() {
@@ -25,7 +31,7 @@ export class Tab2Page {
 
 /*============FUNCIONES===========*/
 
-//lista de fichajes
+//lista de usuarios
   cargarTrabajos() {
     this.api.getTrabajos().subscribe(
       (data) => {
@@ -35,5 +41,23 @@ export class Tab2Page {
         console.error('Error:', error);
       }
     );
+  }
+
+//botones
+  deleteTrabajo(item: Trabajo) {
+    // 1. Comprobamos si el ID existe (no es null ni undefined)
+    if (item.IdTrabajo !== undefined && item.IdTrabajo !== null) {
+      // 2. Si existe, llamamos al API
+      this.api.deleteTrabajo(item.IdTrabajo).subscribe({
+        next: () => this.cargarTrabajos(),
+        error: (err) => { console.error('Error al eliminar trabajo: ', err);}
+      });
+    } else {
+      console.error('No se puede eliminar el trabajo: IdTrabajo no está definido.');
+    }
+  }
+
+  editTrabajo(item: Trabajo) {
+    this.nav.navigateForward('editar-t', { state: { item }});
   }
 }

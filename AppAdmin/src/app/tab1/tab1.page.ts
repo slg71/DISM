@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { timeOutline } from 'ionicons/icons';
 import { Api } from '../services/api';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { Usuario } from '../models/usuario';
