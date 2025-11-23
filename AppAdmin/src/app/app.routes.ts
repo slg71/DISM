@@ -21,4 +21,8 @@ export const routes: Routes = [
     path: 'editar-t',
     loadComponent: () => import('./editar-t/editar-t.page').then( m => m.EditarTPage)
   },
+  {
+    path: 'mapa',
+    loadComponent: () => import('./mapa/mapa.page').then( m => m.MapaPage)
+  },
 ];

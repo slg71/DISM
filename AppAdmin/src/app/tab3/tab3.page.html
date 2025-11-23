@@ -8,17 +8,21 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    @for (fichaje of fichajes; track fichaje.IdFichaje) {
+    @for (item of fichajes; track item.IdFichaje) {
       <!--hay fichajes-->
       <ion-item>
         <ion-label>
-          <h2>{{'Fichaje ID: ' + fichaje.IdFichaje }}</h2>
-          <p>Trabajo ID: {{ fichaje.IdTrabajo }}</p>
-          <p>Entrada: {{ fichaje.FechaHoraEntrada | date:'dd/MM/yyyy HH:mm' }}</p> <!--pa dejar la fecha bonita cambio el formato-->
+          <h2>Fichaje ID: {{ item.IdFichaje }}</h2>
+          <p>Trabajo ID: {{ item.IdTrabajo }}</p>
+          <p>Usuario ID: {{ item.IdUsuario }}</p>
+          <p>Entrada: {{ item.FechaHoraEntrada | date:'dd/MM/yyyy HH:mm' }}</p> <!--pa dejar la fecha bonita cambio el formato-->
           <!--en el caso de que no ha cerrado el fichaje, muestra "en curso"-->
-          <p>Salida: {{ fichaje.FechaHoraSalida ? (fichaje.FechaHoraSalida | date:'dd/MM/yyyy HH:mm') : 'En curso' }}</p>
-          <p>Horas: {{ fichaje.HorasTrabajadas || 0 }}h</p>
+          <p>Salida: {{ item.FechaHoraSalida ? (item.FechaHoraSalida | date:'dd/MM/yyyy HH:mm') : 'En curso' }}</p>
+          <p>Horas: {{ item.HorasTrabajadas || 0 }}h</p>
         </ion-label>
+        <ion-button (click)="mapa(item)" color="warning" size="small">
+          <ion-icon name="create"></ion-icon>
+        </ion-button>
       </ion-item>
     } @empty {
       <!--no hay fichajes-->
