@@ -4,6 +4,9 @@
       Gestión de Fichajes
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar..." (ionInput)="buscar($event)"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -20,7 +23,7 @@
           <p>Salida: {{ item.FechaHoraSalida ? (item.FechaHoraSalida | date:'dd/MM/yyyy HH:mm') : 'En curso' }}</p>
           <p>Horas: {{ item.HorasTrabajadas || 0 }}h</p>
         </ion-label>
-        <ion-button (click)="mapa(item)" color="warning" size="small">
+        <ion-button (click)="mapa(item)" color="success" size="small">
           <ion-icon name="create"></ion-icon>
         </ion-button>
       </ion-item>

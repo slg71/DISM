@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSearchbar } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { Api } from '../services/api';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
@@ -15,10 +15,11 @@ import { icon, Marker } from 'leaflet';
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
+  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent, IonSearchbar]
 })
 export class Tab3Page {
-  fichajes: any = [];
+  fichajes: any = [];//fichajes en el html
+  todos: any = [];//fichajes en el bd
   map?: Leaflet.Map;
 
   constructor(
@@ -38,6 +39,7 @@ export class Tab3Page {
   cargarFichajes() {
     this.api.getFichajesAll().subscribe(
       (data) => {
+        this.todos = data;
         this.fichajes = data;
       },
       (error) => {
@@ -54,5 +56,20 @@ export class Tab3Page {
         longitud: item.GeolocalizacionLongitud
       }
     });
+  }
+
+//mostrará un listado de fichajes, permitiendo filtrar por fechas y usuarios (searchbar):
+  buscar(event: any) {
+    const texto = event.target.value;// Lo que escribe el usuario
+
+    // Si borran el texto, vuelvo a mostrar 'todos'
+    if (texto == '') {
+      this.fichajes = this.todos;
+    } else {
+      //Si el Usuario O la Fecha contienen el texto
+      this.fichajes = this.todos.filter((item: any) => {
+        return (item.IdUsuario + '').includes(texto) || (item.FechaHoraEntrada + '').includes(texto);
+      });
+    }
   }
 }
