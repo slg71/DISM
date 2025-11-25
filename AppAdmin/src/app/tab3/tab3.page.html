@@ -5,7 +5,31 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar placeholder="Buscar..." (ionInput)="buscar($event)"></ion-searchbar>
+    <ion-segment value="usuario"> <ion-button (click)="cambiarModo('usuario')" [color]="modo === 'usuario' ? 'primary' : 'medium'">
+        Por Usuario
+      </ion-button>
+      <ion-button (click)="cambiarModo('fecha')" [color]="modo === 'fecha' ? 'primary' : 'medium'">
+        Por Fechas
+      </ion-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    @if (modo === 'usuario') {
+      <ion-searchbar placeholder="Buscar ID Usuario..." (ionInput)="buscarUsuario($event)"></ion-searchbar>
+    }
+
+    @if (modo === 'fecha') {
+      <ion-item>
+        <ion-label position="stacked">Desde (Entrada):</ion-label>
+        <ion-input type="date" [(ngModel)]="filtroFechaIni"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Hasta (Salida):</ion-label>
+        <ion-input type="date" [(ngModel)]="filtroFechaFin"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="buscarPorFecha()">Filtrar Fechas</ion-button>
+    }
   </ion-toolbar>
 </ion-header>
 

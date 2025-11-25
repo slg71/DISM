@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSearchbar } from '@ionic/angular/standalone';
+import { FormsModule } from '@angular/forms';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSearchbar, IonInput, IonSegment } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { Api } from '../services/api';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
@@ -8,19 +9,19 @@ import { Fichaje } from '../models/fichaje';
 import { NavController } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
 import { create, trash } from 'ionicons/icons';
-import * as Leaflet from 'leaflet';
-import { icon, Marker } from 'leaflet';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent, IonSearchbar]
+  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent, IonSearchbar, FormsModule, IonInput, IonSegment]
 })
 export class Tab3Page {
   fichajes: any = [];//fichajes en el html
   todos: any = [];//fichajes en el bd
-  map?: Leaflet.Map;
+  modo: string = 'usuario';//usuario o fecha
+  filtroFechaIni: string = '';
+  filtroFechaFin: string = '';
 
   constructor(
     public api: Api,
@@ -58,18 +59,54 @@ export class Tab3Page {
     });
   }
 
-//mostrará un listado de fichajes, permitiendo filtrar por fechas y usuarios (searchbar):
-  buscar(event: any) {
-    const texto = event.target.value;// Lo que escribe el usuario
+//cambia el modo y resetea la lista
+  cambiarModo(nuevoModo: string) {
+    this.modo = nuevoModo;
+    this.fichajes = this.todos; //reset
+    this.filtroFechaIni = '';
+    this.filtroFechaFin = '';
+  }
 
-    // Si borran el texto, vuelvo a mostrar 'todos'
-    if (texto == '') {
-      this.fichajes = this.todos;
-    } else {
-      //Si el Usuario O la Fecha contienen el texto
+//mostrará un listado de fichajes, permitiendo filtrar por fechas y usuarios (searchbar):
+  buscarUsuario(event: any) {
+    const texto = event.target.value;
+    if (texto && texto.trim() !== '') {
       this.fichajes = this.todos.filter((item: any) => {
-        return (item.IdUsuario + '').includes(texto) || (item.FechaHoraEntrada + '').includes(texto);
+        return (item.IdUsuario + '').includes(texto);
       });
+    } else {
+      this.fichajes = this.todos;
     }
+  }
+
+  buscarPorFecha() {
+    // Si no hay fechas seleccionadas, mostramos todo
+    if (!this.filtroFechaIni && !this.filtroFechaFin) {
+      this.fichajes = this.todos;
+      return;
+    }
+
+    this.fichajes = this.todos.filter((item: any) => {
+      // Convertimos la fecha del fichaje a objeto Date (quitando la hora para comparar solo días si se prefiere, o completa)
+      const fechaFichaje = new Date(item.FechaHoraEntrada).getTime();
+
+      let cumpleInicio = true;
+      let cumpleFin = true;
+
+      // Si el usuario puso fecha inicio
+      if (this.filtroFechaIni) {
+        const fIni = new Date(this.filtroFechaIni).getTime();
+        cumpleInicio = fechaFichaje >= fIni;
+      }
+
+      // Si el usuario puso fecha fin
+      if (this.filtroFechaFin) {
+        // Añadimos un día o ajustamos para incluir el final del día seleccionado
+        const fFin = new Date(this.filtroFechaFin).setHours(23, 59, 59);
+        cumpleFin = fechaFichaje <= fFin;
+      }
+
+      return cumpleInicio && cumpleFin;
+    });
   }
 }

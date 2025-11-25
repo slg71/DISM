@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-item>
+    <ion-label>Usuario:</ion-label>
+    <ion-input [(ngModel)]="UsuarioData.Usuario" placeholder="Usuario"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Clave:</ion-label>
+    <ion-input [(ngModel)]="UsuarioData.Clave" placeholder="Clave"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="login()" expand="block">Login</ion-button>
+  <ion-button (click)="limpiar()" fill="clear" expand="block">Limpiar</ion-button>
+</ion-content>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonAlert } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { Api } from '../services/api';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
@@ -13,7 +13,7 @@ import { create, trash } from 'ionicons/icons';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent]
+  imports: [RouterLink, IonIcon, IonButton, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonList, IonItem, IonLabel, ExploreContainerComponent, IonAlert]
 })
 export class Tab1Page {
   usuarios: any = [];
@@ -45,13 +45,15 @@ export class Tab1Page {
 
 //botones
   deleteUsuario(item: Usuario) {
-    // 1. Comprobamos si el ID existe (no es null ni undefined)
+    //Comprobamos si el ID existe (no es null ni undefined)
     if (item.IdUsuario !== undefined && item.IdUsuario !== null) {
-      // 2. Si existe, llamamos al API
-      this.api.deleteUsuario(item.IdUsuario).subscribe({
-        next: () => this.cargarUsuarios(),
-        error: (err) => { console.error('Error al eliminar usuario: ', err);}
-      });
+      if (confirm('¿Seguro que desea borrar al usuario ' + item.Nombre + '?')) {
+        //Si existe, llamamos al API
+        this.api.deleteUsuario(item.IdUsuario).subscribe({
+          next: () => this.cargarUsuarios(),
+          error: (err) => { console.error('Error al eliminar usuario: ', err);}
+        });
+      }
     } else {
       console.error('No se puede eliminar el usuario: IdUsuario no está definido.');
     }

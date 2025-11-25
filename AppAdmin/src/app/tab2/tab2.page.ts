@@ -47,6 +47,7 @@ export class Tab2Page {
   deleteTrabajo(item: Trabajo) {
     // 1. Comprobamos si el ID existe (no es null ni undefined)
     if (item.IdTrabajo !== undefined && item.IdTrabajo !== null) {
+      if (confirm('¿Seguro que desea borrar al trabajo ' + item.Nombre + '?'))
       // 2. Si existe, llamamos al API
       this.api.deleteTrabajo(item.IdTrabajo).subscribe({
         next: () => this.cargarTrabajos(),
