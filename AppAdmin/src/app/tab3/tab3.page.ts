@@ -87,7 +87,7 @@ export class Tab3Page {
     }
 
     this.fichajes = this.todos.filter((item: any) => {
-      // Convertimos la fecha del fichaje a objeto Date (quitando la hora para comparar solo días si se prefiere, o completa)
+      // Convertimos la fecha del fichaje a objeto Date
       const fechaFichaje = new Date(item.FechaHoraEntrada).getTime();
 
       let cumpleInicio = true;

@@ -84,4 +84,8 @@ export class Api {
   getFichajesAll(): Observable<Fichaje[]> {
     return this.http.get<Fichaje[]>(this.basePath + '/fichajes').pipe(retry(2),catchError(this.handleError));
   }
+
+  deleteFichaje(IdFichaje: number): Observable<Fichaje> {
+    return this.http.delete<Fichaje>(this.basePath + '/fichajes/' + IdFichaje, this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
 }
