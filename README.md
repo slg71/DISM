@@ -15,5 +15,5 @@ Coursework and projects for **Multimedia Systems Interface Design (DISM)**. Focu
 ---
 
 ### 🛠️ Tecnologías y Herramientas / Tech & Tools
-- **Desarrollo e Interfaz:** HTML5, CSS3, JavaScript [añade React / framework si lo usaste]
+- **Desarrollo e Interfaz:** HTML5, CSS3, JavaScript
 - **conceptos clave / Key Concepts:** Diseño centrado en el usuario (UCD), Usabilidad, Accesibilidad, Responsive Design.
